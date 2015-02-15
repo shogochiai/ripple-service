@@ -1,0 +1,44 @@
+.container--header--login_icon {
+    margin-right : 10px;
+}
+
+.container--header--logout_icon {
+    margin-right:10px
+}
+
+.container--header--accept_icon {
+    margin-right:10px
+}
+
+.container--body--num {
+    width : 50px;
+    margin : 0 auto;
+    margin-bottom : 100px;
+}
+
+.container--body--orders {
+    margin : 0 auto;
+    margin-bottom : 100px;
+    width : 700px;
+}
+
+.container--body--menu {
+    margin : 0 auto;
+    margin-bottom : 100px;
+    width : 900px;
+}
+
+.container--body--orders--members {
+    margin : 0 auto;
+    margin-bottom : 100px;
+    width : 500px;
+}
+
+#ordernum {
+    font-size : 80px;
+    margin : 0 auto;
+}
+
+#accept {
+    margin-right : 10;
+}

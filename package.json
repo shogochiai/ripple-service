@@ -1,0 +1,49 @@
+{
+  "name": "onigiri_bugyo",
+  "descrption": "onigiri order system",
+  "version": "0.0.1",
+  "author" : {
+    "name" : "Technical Rockstars"
+  },
+  "private": true,
+  "scripts": {
+    "start": "gulp"
+  },
+  "engines":{
+    "node" : ">=0.10.*"
+  },
+  "main" : "gulpfile.js",
+  "dependencies": {
+    "gulp": "~3.8.7",
+    "gulp-autoprefixer": "~0.0.8",
+    "gulp-combine-media-queries": "~0.1.0",
+    "gulp-connect": "~2.0.6",
+    "gulp-csslint": "~0.1.5",
+    "gulp-install": "^0.2.0",
+    "gulp-minify-css": "~0.3.7",
+    "gulp-plumber": "~0.6.4",
+    "gulp-rename": "~1.2.0",
+    "gulp-run": "~1.6.3",
+    "gulp-uglify": "~0.3.1",
+    "gulp-rev": "*",
+    "gulp-usemin": "*",
+    "gulp-minify-html": "*",
+    "gulp-util" : "*",
+    "rimraf" : "*",
+    "gulp-rev-outdated" : "*",
+    "path" : "*",
+    "through2" : "*"
+  },
+  "devDependencies": {
+      "supertest" : "*",
+      "mocha" : "*",
+      "q" : "*",
+      "chai" : "*",
+      "gulp" : "*",
+      "gulp-install": "^0.2.0",
+      "gulp-connect" : "*",
+      "gulp-if" : "*",
+      "gulp-bower" : "*",
+      "gulp-flatten" : "*"
+  }
+}

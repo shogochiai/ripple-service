@@ -1,0 +1,10 @@
+{
+  "name": "ripple service",
+  "version": "0.0.1",
+  "main": "exports/js/index.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ]
+}

@@ -85,6 +85,7 @@
     milkcocoa.getCurrentUser(function(err, current_user){
 
         var isLoggedIn = (err == null);
+        console.log("isLoggedIn", isLoggedIn);
         if (isLoggedIn) {
             // logoutボタン
             render_chat();

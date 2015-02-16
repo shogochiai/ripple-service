@@ -3,6 +3,9 @@
 ripple売買サービス
 
 
+![pic](./develop/pic/display.png)
+
+
 # how to use
 
 - `npm i`

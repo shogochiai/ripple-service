@@ -9,14 +9,14 @@
         });
     });
 
-    var milkcocoa = new MilkCocoa("https://io-ni5704e2j.mlkcca.com:443");
+    var milkcocoa = new MilkCocoa("https://io-qi679x0fo.mlkcca.com:443");
     var ds_proposals = milkcocoa.dataStore("proposals");
     var ds_members = milkcocoa.dataStore("members");
     var ds_orders = milkcocoa.dataStore("orders");
     var ds_accept = milkcocoa.dataStore("accept");
 
     var prp_cls = "container--body--orders--members";
-    var ingredient_names = ["shio", "shake", "asari", "mentai", "ume"];
+    var ingredient_names = ["bitcoin", "ripple", "paycoin", "lightcoin", "bitshares"];
     var $ordernum_html = $("#ordernum");
     var $container_header = $(".container--header");
     var $menu = $(".container--body--menu");
@@ -36,10 +36,10 @@
 
     isAccept(function(bool){
         if(bool){
-            $container_header.append("<h1 class='container--body--accept_mode' id='accept_state'>配達中だよ！</h1>");
+            $container_header.append("<h1 class='container--body--accept_mode' id='accept_state'>市場クローズ中</h1>");
             $container_header.append("<p>オーダーは変更できません。もし何かあったらチャットでやりとりしてね。</p>");
         } else {
-            $container_header.append("<h3 class='container--body--accept_mode' id='accept_state'>注文受付中だよ！</h1>");
+            $container_header.append("<h3 class='container--body--accept_mode' id='accept_state'>市場オープン中</h1>");
         }
     });
 
@@ -48,7 +48,7 @@
 
 
     // たけのしんがおにぎりの具を管理できたら良い
-    $menu.append("<h2>メニュー</h2>");
+    $menu.append("<h2>商品</h2>");
     $orders.prepend("<h2>オーダー</h2>");
     for(var i = 0; i < ingredient_names.length; i++){
         $menu.append("<img src='pic/"+ingredient_names[i]+".png' width='180px' id='"+ingredient_names[i]+"'>");
@@ -144,57 +144,60 @@
         // グループ管理者モード
         var mode = decodeURI(location.hash.substr(1));
         if (mode == "admin"){
-            var isShogo = (current_user.name == admin_name);
-            if(isShogo){
-                console.log(admin_name + " mode :)");
-                ds_proposals.query({}).done(function(users){
-                    console.log(users);
-                    for(i=0; i < users.length; i++ ){
-                        var each_user = users[i];
-                        var prp_cls = "container--body--proposals";
-                        var base_cls = prp_cls + "--" + each_user.fbid;
-                        var ok_cls = base_cls + "--ok";
-                        var ng_cls = base_cls + "--ng";
-                        var ok_btn = "<button class='btn btn-primary "+ok_cls+"'>OK</button>";
-                        var ng_btn = "<button class='btn btn-primary "+ng_cls+"'>NG</button>";
+            if(isLoggedIn) {
+                var isShogo = (current_user.name == admin_name);
+                if(isShogo){
+                    console.log(admin_name + " mode :)");
+                    ds_proposals.query({}).done(function(users){
+                        console.log(users);
+                        for(i=0; i < users.length; i++ ){
+                            var each_user = users[i];
+                            var prp_cls = "container--body--proposals";
+                            var base_cls = prp_cls + "--" + each_user.fbid;
+                            var ok_cls = base_cls + "--ok";
+                            var ng_cls = base_cls + "--ng";
+                            var ok_btn = "<button class='btn btn-primary "+ok_cls+"'>OK</button>";
+                            var ng_btn = "<button class='btn btn-primary "+ng_cls+"'>NG</button>";
 
-                        // 申請者表示
-                        $("."+prp_cls).append("<div id='"+each_user.name+"--proposal'><p class='"+base_cls+"'>" + each_user.name + ok_btn + ng_btn + "</p></div>");
-                        $("."+ok_cls).css("margin-left", "10px");
-                        $("."+ng_cls).css("margin-left", "10px");
+                            // 申請者表示
+                            $("."+prp_cls).append("<div id='"+each_user.name+"--proposal'><p class='"+base_cls+"'>" + each_user.name + ok_btn + ng_btn + "</p></div>");
+                            $("."+ok_cls).css("margin-left", "10px");
+                            $("."+ng_cls).css("margin-left", "10px");
 
-                        // 承認
-                        $("."+ok_cls).click(function(e){
-                            var user_id_seed = $(this).parent().attr("class");
-                            var reg = new RegExp(prp_cls + "--");
-                            var user_id = user_id_seed.replace(reg, "");
+                            // 承認
+                            $("."+ok_cls).click(function(e){
+                                var user_id_seed = $(this).parent().attr("class");
+                                var reg = new RegExp(prp_cls + "--");
+                                var user_id = user_id_seed.replace(reg, "");
 
-                            ds_proposals.query({fbid: user_id}).done(function(targets){
-                                var target = targets[0];
-                                ds_members.push({ fbid : target.fbid, name : target.name });
-                                ds_proposals.remove(target.id);
-                                location.reload();
+                                ds_proposals.query({fbid: user_id}).done(function(targets){
+                                    var target = targets[0];
+                                    ds_members.push({ fbid : target.fbid, name : target.name });
+                                    ds_proposals.remove(target.id);
+                                    location.reload();
+                                });
                             });
-                        });
 
-                        // 拒否
-                        $("."+ng_cls).click(function(e){
-                            var user_id_seed = $(this).parent().attr("class");
-                            var reg = new RegExp(prp_cls + "--");
-                            var user_id = user_id_seed.replace(reg, "");
+                            // 拒否
+                            $("."+ng_cls).click(function(e){
+                                var user_id_seed = $(this).parent().attr("class");
+                                var reg = new RegExp(prp_cls + "--");
+                                var user_id = user_id_seed.replace(reg, "");
 
-                            ds_proposals.query({fbid: user_id}).done(function(targets){
-                                ds_proposals.remove(targets[0].id);
-                                location.reload();
+                                ds_proposals.query({fbid: user_id}).done(function(targets){
+                                    ds_proposals.remove(targets[0].id);
+                                    location.reload();
+                                });
                             });
-                        });
-                    }
-                });
+                        }
+                    });
 
+                } else {
+                  location.href = "http://"+location.host;
+                }
             } else {
-              location.href = "http://"+location.host;
+                alert("ログインすべし");
             }
-
         // 販売者モード
         } else if (mode == "seller"){
             var isTakenoshin = (current_user.name == seller_name);
@@ -215,26 +218,31 @@
         // 一般ユーザーモード
         } else if (mode == "") {
             // current_userがmembersに含まれていたら許可
-            ds_members.query({fbid:current_user.id}).done(function(targets){
-                var target = targets[0];
-                if(target){
-                    // おにぎりを注文できる処理
-                    for ( var k = 0; k < ingredient_names.length; k++){
-                        $("#"+ingredient_names[k]).click(function(){
-                            var ingredient_name = $(this).attr("id");
-                            accept_filter(function(){
-                                ds_orders.push({ user_id : target.fbid, user_name: target.name, ingredient_name : ingredient_name });
+            if(isLoggedIn) {
+                ds_members.query({fbid:current_user.id}).done(function(targets){
+                    var target = targets[0];
+                    if(target){
+                        // おにぎりを注文できる処理
+                        for ( var k = 0; k < ingredient_names.length; k++){
+                            $("#"+ingredient_names[k]).click(function(){
+                                var ingredient_name = $(this).attr("id");
+                                accept_filter(function(){
+                                    ds_orders.push({ user_id : target.fbid, user_name: target.name, ingredient_name : ingredient_name });
+                                });
                             });
-                        });
+                        }
+                    } else {
+                        for ( var k = 0; k < ingredient_names.length; k++){
+                            $("#"+ingredient_names[k]).click(function(){
+                                alert("Member only, Sir :)");
+                            });
+                        }
                     }
-                } else {
-                    for ( var k = 0; k < ingredient_names.length; k++){
-                        $("#"+ingredient_names[k]).click(function(){
-                            alert("Member only, Sir :)");
-                        });
-                    }
-                }
-            });
+                });
+            } else {
+                alert("理想的にはランディングページに飛ばす");
+                //location.href = toppage
+            }
         } else {
             alert("no such hash ;p");
             location.href = "http://"+location.host;
